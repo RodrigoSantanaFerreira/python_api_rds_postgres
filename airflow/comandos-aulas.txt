@@ -1,0 +1,60 @@
+Iniciando o container do Airflow (Lembre de iniciar na estrutura de diretórios correta)
+
+docker run -d -p 8080:8080 -v "$PWD/dags:/opt/airflow/dags/" \
+--entrypoint=/bin/bash \
+--name airflow apache/airflow:2.1.1-python3.8 \
+-c '(airflow db init && \
+    airflow users create --username admin --password abc123 --firstname Felipe --lastname Lastname --role Admin --email admin@example.org
+    ); \
+airflow webserver & \
+airflow scheduler \
+'
+
+Verificando o container em execução.
+docker container ls
+
+Verificando os logs do container
+docker container logs airflow
+
+Conectando ao container.
+docker container exec -it --user root airflow bash
+
+Atualizando o container e instalando softwares básicos.
+apt-get update && apt-get install vim iputils-ping -y
+
+Criando o container para o MySQL em Ambiente OLTP.
+docker run -d --name mysql_oltp -p "3306:3306" \
+-v "$PWD/data:/home" -e MYSQL_ROOT_PASSWORD=airflow mysql
+
+Acessando o container.
+docker container exec -it mysql_oltp bash
+
+Importando os arquivos do banco de dados.
+cd /home/dbs
+mysql -u root -pairflow < employees.sql
+
+Atualizando o container e instalando softwares básicos.
+apt-get update && apt-get install vim iputils-ping -y
+
+Instalando o driver de conexão com o MySQL.
+pip install pymysql
+
+Verificando o ip do container
+docker inspect mysql_oltp
+
+Criando o container para o PostgreSQL
+docker run --name postgresql_olap -e POSTGRES_PASSWORD=airflow -d postgres
+
+Conectando ao container olap
+docker container exec -it postgresql_olap bash
+
+Se conectando ao PostgreSQL
+psql -h localhost -U postgres
+
+Mostrando os bancos de dados.
+SELECT datname FROM pg_database;
+
+Criando o banco de dados employees
+CREATE DATABASE employees;
+
+\connect employees

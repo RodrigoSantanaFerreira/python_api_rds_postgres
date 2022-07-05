@@ -1,0 +1,1 @@
+echo "A data recebida por templating foi: " $execution_date
