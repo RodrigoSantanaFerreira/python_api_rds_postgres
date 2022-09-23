@@ -19,7 +19,7 @@ class Coins(Base):
     volume_24h = Column(Float)
    
     def start():
-        db_string = "postgresql://postgres:Stack2022!@db1.cgmgkr9myokm.us-east-1.rds.amazonaws.com:5432/coins"
+        db_string = "postgresql://postgres:Stack2022!@xxxxxx"
         engine = create_engine(db_string)
         Session = sessionmaker(bind=engine)
         session = Session()
